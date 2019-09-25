@@ -14,8 +14,8 @@ def run():
     fields = args.fields
     field_confirm = ''
     if fields is None:
-        field_confirm = '(Reporting default fields EVIDENCE, PHENOTYPES, and MODE_OF_INHERITANCE)\n'
-        fields = ['evidence', 'phenotypes', 'mode_of_inheritance']
+        field_confirm = '(Reporting default fields PENETRANCE, MODE_OF_PATHOGENICITY, EVIDENCE, PHENOTYPES, and MODE_OF_INHERITANCE)\n'
+        fields = ['penetrance', 'mode_of_pathogenicity', 'evidence', 'phenotypes', 'mode_of_inheritance']
     else:
         fields = fields.split(',')
         field_confirm = '(Reporting for entered fields: {})\n'.format(fields)
