@@ -45,7 +45,7 @@ def run():
         # format and print response
         first_result = results[0]
         gene_name = first_result.get("entity_name", None)
-        print("* PANEL APP RESULTS for gene {} has {} entries:".format(gene_name, len(results)))
+        print("\n* PANEL APP RESULTS for gene {} has {} entries:".format(gene_name, len(results)))
         print('* {}'.format(field_confirm))
         print("-------------------------------------------------------------------------------")
         out = []
@@ -67,7 +67,7 @@ def run():
         for i in range(len(out)):
             label = fields[i % len(fields)].upper()
             val = out[i]
-            print('{}: {}\n'.format(label, val))
+            print('{}: {}'.format(label, val))
             if ((i + 1) % len(fields)) == 0:
                 print("-------------------------------------------------------------------------------")
 
