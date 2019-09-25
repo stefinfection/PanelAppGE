@@ -14,11 +14,11 @@ def run():
     fields = args.fields
     field_confirm = ''
     if fields is None:
-        field_confirm = '(Reporting default fields PENETRANCE, MODE_OF_PATHOGENICITY, EVIDENCE, PHENOTYPES, and MODE_OF_INHERITANCE)\n'
-        fields = ['penetrance', 'mode_of_pathogenicity', 'evidence', 'phenotypes', 'mode_of_inheritance']
+        field_confirm = '(Reporting default fields EVIDENCE, PHENOTYPES, and MODE_OF_INHERITANCE)'
+        fields = ['evidence', 'phenotypes', 'mode_of_inheritance']
     else:
         fields = fields.split(',')
-        field_confirm = '(Reporting for entered fields: {})\n'.format(fields)
+        field_confirm = '(Reporting for entered fields: {})'.format(fields)
         known_fields = ['gene_data', 'entity_type', 'entity_name', 'confidence_level', 'penetrance', 'mode_of_pathogenicity',
                         'publications', 'evidence', 'phenotypes', 'mode_of_inheritance', 'tags', 'panel']
         for field in fields:
@@ -45,10 +45,9 @@ def run():
         # format and print response
         first_result = results[0]
         gene_name = first_result.get("entity_name", None)
-        print("\n*\n*\n*")
         print("* PANEL APP RESULTS for gene {} has {} entries:".format(gene_name, len(results)))
-        print('*', field_confirm)
-        print("-------------------------------------------------------------------------------\n")
+        print('* {}'.format(field_confirm))
+        print("-------------------------------------------------------------------------------")
         out = []
         for result in results:
             for field in fields:
@@ -57,7 +56,7 @@ def run():
                 if field in ['publications, evidence, phenotypes', 'tags']:
                     for curr_val in value:
                         curr_str += ', ' + curr_val
-                    curr_str = curr_str[2:]
+                    curr_str = json.dumps(curr_str[2:])
                     if curr_str == '':
                         curr_str = '-'
                 else:
@@ -70,7 +69,7 @@ def run():
             val = out[i]
             print('{}: {}\n'.format(label, val))
             if ((i + 1) % len(fields)) == 0:
-                print("-------------------------------------------------------------------------------\n")
+                print("-------------------------------------------------------------------------------")
 
 
 # performs secure request over TSL socket
