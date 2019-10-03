@@ -3,11 +3,15 @@ import socket
 import ssl
 import argparse
 
+# Takes in one gene at a time. Connects to Genomics England via SSl to return gene level information.
+# Requires -g flag with gene name
+# Optional -f flag to change default fields returned
 
 def run():
     # parse args
     parser = argparse.ArgumentParser()
     parser.add_argument("-f", "--fields", help="Fields to return from PanelApp response")
+    parser.add_argument("-g", "--gene", help="The name of the gene to lookup", required=True)
     args = parser.parse_args()
 
     # validate fields
@@ -28,10 +32,11 @@ def run():
 
     # compose gene list
     gene_list = []
-    for line in sys.stdin:
-        gene_list.append(line.split()[0])
+    gene_list.append(args.gene)
+    # for line in sys.stdin:
+    #     gene_list.append(line.split()[0])
     if len(gene_list) == 0:
-        print("Did not receive any genes. Please try again.")
+        print("Did not receive input gene. Please try again.")
         return
     else:
         # perform request
@@ -56,7 +61,7 @@ def run():
                 if field in ['publications, evidence, phenotypes', 'tags']:
                     for curr_val in value:
                         curr_str += ', ' + curr_val
-                    curr_str = json.dumps(curr_str[2:])
+                    curr_str = curr_str[2:]
                     if curr_str == '':
                         curr_str = '-'
                 else:
@@ -67,7 +72,7 @@ def run():
         for i in range(len(out)):
             label = fields[i % len(fields)].upper()
             val = out[i]
-            print('{}: {}'.format(label, val))
+            print('{}: {}'.format(str(label), str(val)))
             if ((i + 1) % len(fields)) == 0:
                 print("-------------------------------------------------------------------------------")
 
