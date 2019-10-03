@@ -33,8 +33,6 @@ def run():
     # compose gene list
     gene_list = []
     gene_list.append(args.gene)
-    # for line in sys.stdin:
-    #     gene_list.append(line.split()[0])
     if len(gene_list) == 0:
         print("Did not receive input gene. Please try again.")
         return
@@ -44,7 +42,8 @@ def run():
         py_obj = json.loads(body)
         results = py_obj.get('results', None)
         if not results or len(results) == 0:
-            print('JSON response did not contain results field or results is empty')
+            print('\n* PANEL APP did not contain results for gene {}'.format(args.gene))
+            print("-------------------------------------------------------------------------------")
             return
 
         # format and print response
@@ -60,19 +59,19 @@ def run():
                 curr_str = ''
                 if field in ['publications, evidence, phenotypes', 'tags']:
                     for curr_val in value:
-                        curr_str += ', ' + curr_val
+                        curr_str += ', ' + str(curr_val)
                     curr_str = curr_str[2:]
                     if curr_str == '':
                         curr_str = '-'
                 else:
-                    curr_str = value
+                    curr_str = str(value)
                     if curr_str == '':
                         curr_str = '-'
                 out.append(curr_str)
         for i in range(len(out)):
-            label = fields[i % len(fields)].upper()
+            label = str(fields[i % len(fields)].upper())
             val = out[i]
-            print('{}: {}'.format(str(label), str(val)))
+            print('{}: {}'.format(label, val))
             if ((i + 1) % len(fields)) == 0:
                 print("-------------------------------------------------------------------------------")
 
