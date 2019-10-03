@@ -9,8 +9,8 @@ Do **not** put a space between commas for field argument.
 
 
 Example usage with default fields:
->echo -e "gfi1" | python3 ppa.py
+>python3 ppa.py -g GFI1
 
 Example usage with custom fields:
->echo -e "POGZ" | python3 ppa.py -f publications,evidence
+>cat gene_list.txt | while read line; do python ppa.py -f publications,evidence -g $line; done
 
